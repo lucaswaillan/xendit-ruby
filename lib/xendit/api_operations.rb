@@ -25,7 +25,7 @@ module Xendit
           url: Xendit.base_url,
           headers: headers
         ) do |conn|
-          conn.request :authorization, :basic, Xendit.api_key, ''
+          conn.request :basic_auth, Xendit.api_key, ''
         end
       end
     end
