@@ -11,17 +11,19 @@ module Xendit
         conn.get url, params
       end
 
-      def post(url, **params)
-        conn = create_connection
+      def post(url, params, headers = {})
+        conn = create_connection(headers)
         conn.post url, JSON.generate(params)
       end
 
       private
 
-      def create_connection
+      def create_connection(custom_headers = {})
+        headers = {'Content-Type' => 'application/json'}
+        headers.merge!(custom_headers)
         Faraday.new(
           url: Xendit.base_url,
-          headers: {'Content-Type' => 'application/json'}
+          headers: headers
         ) do |conn|
           conn.basic_auth(Xendit.api_key, '')
         end
